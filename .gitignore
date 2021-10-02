@@ -1,0 +1,29 @@
+# dossier node-modules des dossiers frontend et backend
+backend/node_modules
+reseau-social-groupomania/node_modules
+
+
+# copié collé du .gitignore de /reseau-social-groupomania
+
+    .DS_Store
+    node_modules
+    /dist
+
+    # local env files
+    .env.local
+    .env.*.local
+
+    # Log files
+    npm-debug.log*
+    yarn-debug.log*
+    yarn-error.log*
+    pnpm-debug.log*
+
+    # Editor directories and files
+    .idea
+    .vscode
+    *.suo
+    *.ntvs*
+    *.njsproj
+    *.sln
+    *.sw?
