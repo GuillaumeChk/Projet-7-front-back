@@ -45,9 +45,16 @@ exports.deletePost = async (req, res, next) => {
       postId: req.params.id
     }
   })
+
+  // db CASCADE
 };
 
 exports.getAllPosts = async (req, res, next) => {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      order: [
+        ['date', 'DESC'], // les plus récents en premiers
+        ['hour', 'DESC']
+      ]
+    });
   res.status(200).json(posts);
 };

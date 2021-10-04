@@ -3,7 +3,7 @@
         <h5>
             {{ comment.user }} a répondu :
             <span>le {{ comment.date }} à {{ comment.hour }}</span>
-            <i @click="$emit('delete-comment', comment.id)" class="fas fa-times"></i>
+            <i v-show="canDelete" @click="$emit('delete-comment', comment.id)" class="fas fa-times"></i>
         </h5>
         <p>{{ comment.text }}</p>
     </div>
@@ -14,7 +14,20 @@ export default {
     name: 'Comment',
     props: {
         comment: Object,
-        post: Object
+        post: Object,
+        isAdmin: Boolean,
+        userName: String,
+    },
+    data() {
+        return {
+            canDelete: false,
+        }
+    },
+    async created() {
+        // Est admin ou le créateur du post : possibilité de supprimer le post
+        if (this.comment.user === this.userName || this.isAdmin) { 
+            this.canDelete = true
+        }
     },
 }
 </script>

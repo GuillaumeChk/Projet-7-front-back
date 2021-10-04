@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 
 exports.signup = (req, res, next) => {
   delete req.body.id;
@@ -39,6 +41,7 @@ exports.login = async (req, res, next) => {
               { 
                 userId: user.id, 
                 userName: user.name,
+                isAdmin: user.isAdmin,
               },
               process.env.ACCESS_TOKEN_SECRET,
               { expiresIn: '24h' }
@@ -51,7 +54,16 @@ exports.login = async (req, res, next) => {
 };
 
 exports.deleteAccount = async (req, res, next) => {
-  console.log("avant destroy")
+  // Trouver l'user
+  await User.findOne({ where : { id: req.params.id } })
+  .then(async user => {
+    // Détruire ses posts
+    await Post.destroy({ where : { user: user.name } })
+    // Détruire ses commentaires
+    await Comment.destroy({ where : { user: user.name } })
+  })
+
+  // Supprimer l'user
   await User.destroy({
     where: {
       id: req.params.id
@@ -60,7 +72,8 @@ exports.deleteAccount = async (req, res, next) => {
   // user.save()
   //   .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
   //   .catch(error => res.status(400).json({ error }));
-  console.log("apres destroy")
 
-  // destroy ses posts et comments
+  // destroy ses posts et comments ?
+
+  // db CASCADE
 };

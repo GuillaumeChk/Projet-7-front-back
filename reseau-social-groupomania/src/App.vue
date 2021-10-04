@@ -24,6 +24,8 @@
     text-align: center;
     color: $color-accent;
     // margin-top: 60px;
+    max-width: 600px;
+    margin: auto;
   }
   img {
     max-width: 50%;

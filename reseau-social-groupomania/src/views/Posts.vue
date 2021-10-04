@@ -7,6 +7,7 @@
         <!-- publier -->
         <SendPost v-show="showAddPost" @submit-post="addPost" />
         <!-- liste des publications -->
+        <p>Les plus récents</p>
         <div :key="post.id" v-for="post in posts">
             <Post @add-comment="addComment" @delete-post="deletePost" @delete-comment="deleteComment" :post="post" :comments="comments" :isAdmin="isAdmin" :userName="userName" />
         </div>

@@ -9,7 +9,7 @@
     </div>
     <Reply @add-comment="addComment" :post="post" />
     <!-- Commentaires -->
-    <Comments @delete-comment="deleteComment" :comments="comments" :post="post" />
+    <Comments @delete-comment="deleteComment" :comments="comments" :post="post" :isAdmin="isAdmin" :userName="userName" />
 </template>
 
 <script>

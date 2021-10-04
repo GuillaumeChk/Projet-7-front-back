@@ -2,7 +2,7 @@
     <button @click="toggleComments" class="btn-show-comments">{{ btnTexte }} les commentaires</button> <!-- v-show="hasComments" -->
     <div v-if="showComments">
         <div :key="comment.id" v-for="comment in comments">
-            <Comment @delete-comment="deleteComment" :comment="comment" :post="post" />
+            <Comment @delete-comment="deleteComment" :comment="comment" :post="post" :isAdmin="isAdmin" :userName="userName" />
         </div>
     </div>
 </template>
@@ -14,7 +14,9 @@ export default {
     name: 'ShowComments',
     props: {
         post: Object,
-        comments: Array
+        comments: Array,
+        isAdmin: Boolean,
+        userName: String,
     },
     components: {
         Comment
