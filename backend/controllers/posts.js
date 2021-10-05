@@ -4,26 +4,32 @@ const Comment = require('../models/Comment');
 // const FileReader = require('filereader'), fileReader = new FileReader();
 
 exports.createPost = async (req, res, next) => {
+  console.log("files: " + req.files)
   console.log("file: " + req.file)
   // console.log("parsed files: " + JSON.parse(req.files))
   console.log("req :" + req)
-  console.log("body :" + req.body)
-  console.log("post " + req.body.post)
+  // console.log("image :" + req.files.originalname)
+  // console.log("post " + JSON.stringify(req.body.post))
   // console.log("image " + req.files.image)
-  // lire l'image
-  if (req.file) {
-    console.log('ok')
-    console.log('body : ' + req.body)
-  }
-  // fileReader.readAsBinaryString(req.files.images);
-  // fileReader.onloadend = function(){
-  //     console.log(fileReader.result);
-  // }
+  // console.log('body : ' + req.body)
+  console.log("text : " + req.body.id)
+  console.log("text : " + req.body.user)
+  console.log("text : " + req.body.text)
+  console.log("text : " + req.body.date)
+  console.log("text : " + req.body.hour)
 
-  delete req.body.post.id; // auto-incrémenté par la db
+
+  // fileReader.readAsBinaryString(req.files.images);
+
+  // delete req.body.post.id; // auto-incrémenté par la db
   const post = await Post.create({
-    ...req.body.post,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    // ...req.body.post,
+    // id auto-incrémenté
+    user: req.body.user,
+    text: req.body.text,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    date: req.body.date,
+    hour: req.body.hour,
   });
   post.save()
     .then(() => { res.status(201).json({

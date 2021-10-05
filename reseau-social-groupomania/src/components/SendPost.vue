@@ -1,5 +1,5 @@
 <template>
-    <form @submit="onSubmit">
+    <form @submit="onSubmit" enctype="multipart/form-data">
         <h3>Publier</h3>
         <div>
             <label for="text">Texte </label>
@@ -41,6 +41,7 @@
                 // Créer l'objet post
                 const post = {
                     id: 1, // sera supprimé puis auto-incrémenté
+                    // user : ajout de l'user dans Posts.vue
                     text: this.text,
                     imageUrl: '',
                     date: date.format(Date.now()),

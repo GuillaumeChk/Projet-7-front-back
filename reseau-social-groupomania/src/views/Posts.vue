@@ -7,7 +7,7 @@
         <!-- publier -->
         <SendPost v-show="showAddPost" @submit-post="addPost" />
         <!-- liste des publications -->
-        <p>Les plus récents</p>
+        <p>Les plus récentes</p>
         <div :key="post.id" v-for="post in posts">
             <Post @add-comment="addComment" @delete-post="deletePost" @delete-comment="deleteComment" :post="post" :comments="comments" :isAdmin="isAdmin" :userName="userName" />
         </div>
@@ -31,7 +31,7 @@ export default {
             posts: [],
             comments: [],
             userName: '',
-            token: '',
+            // token: '',
             isAdmin: false,
             userId: '',
         }
@@ -61,8 +61,13 @@ export default {
         // console.log("post : " + post)
 
         let formData = new FormData();
-        formData.append('post', post.text)
+        // formData.append('post', post)
+        formData.append('id', post.id)
+        formData.append('user', this.userName)
+        formData.append('text', post.text)
         formData.append('image', object.image)
+        formData.append('date', post.date)
+        formData.append('hour', post.hour)
 
         // console.log du formData
         for(var pair of formData.entries()) {
@@ -73,15 +78,18 @@ export default {
           method: 'POST',
           headers: {
             // 'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.token
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           },
           body: formData
         })
 
-        console.log(res)
+        res
+        // const data = await res.json()
 
         // mis à jour publications posts []
+        this.posts = [post, ...this.posts]
 
+        this.refreshPage()
       },
       async deletePost(id) {
         if(confirm('Supprimer cette publication ?')) {
@@ -89,12 +97,13 @@ export default {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.token
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
 
           // Cela supprime également tous les commentaires du post
 
+          this.refreshPage()
         }
       },
       async addComment(comment) {
@@ -102,14 +111,21 @@ export default {
           ...comment,
           user: this.userName
         }
-        await fetch('http://localhost:3000/api/comments', {
+        const res = await fetch('http://localhost:3000/api/comments', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.token
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           },
           body: JSON.stringify(comment)
         })
+
+        res
+        // const data = await res.json()
+
+        // mis à jour publications posts []
+        this.comments = [...this.comments, comment]
+        this.refreshPage()
       },
       async deleteComment(id) {
         if(confirm('Supprimer ce commentaire ?')) {
@@ -117,9 +133,10 @@ export default {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.token
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
+          this.refreshPage() 
         }
       },
       async fetchPosts() {
@@ -127,7 +144,7 @@ export default {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.token
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           }
         })
         const data = await res.json()
@@ -138,13 +155,15 @@ export default {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',
-            Authorization: 'Bearer ' + this.token
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           }
         })
         const data = await res.json()
         return data
       },
       onDisconnect() {
+        // effacer le token
+        localStorage.removeItem('token')
             this.$router.push("/")
       },
       async onDeleteAccount() {
@@ -154,27 +173,62 @@ export default {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',
-              Authorization: 'Bearer ' + this.token
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
           
         }
         // supprimer tous les posts et commentaires
 
+        // effacer le token
+        localStorage.removeItem('token')
         this.$router.push("/")
       },
+      refreshPage() {
+        this.$router.push({
+          name: "Posts", 
+          params: { 
+              userName: this.userName, // transmettre l'user name
+              // token: data.token, // transmettre le token
+              isAdmin: this.isAdmin, // converti en boolean
+              userId: this.userId,
+          }
+          // SAUVER DANS LOCALSTORAGE ?
+        })
+      }
     },
     async created() {
       // récupère le nom d'utilisateur depuis la page Connection (grace à la clef primaire mail de User)
       this.userName = this.$route.params.userName
       this.isAdmin = (this.$route.params.isAdmin == 1)
       // et le token d'authentification
-      this.token = this.$route.params.token
       this.userId = this.$route.params.userId
 
-      this.posts = await this.fetchPosts()
-      this.comments = await this.fetchComments()
-    }
+      // Le token est-il nul ?
+      if(localStorage.getItem('token') === null) {
+        alert("Connexion expirée. Veuillez vous identifier à nouveau.")
+        this.$router.push("/")
+      }
+      else { // Sinon récupérer tous les posts et comments
+        this.posts = await this.fetchPosts()
+        this.comments = await this.fetchComments()
+      }
+    },
+    // async mounted() {
+    //   this.posts = await this.fetchPosts()
+    //   this.comments = await this.fetchComments()
+    // }
+    // watch: {
+    //   user: async function() {
+    //     if (this.posts) {
+    //       this.posts = await this.fetchPosts()
+    //     }
+    //   }
+    // },
+    // async updated() {
+    //   this.posts = await this.fetchPosts()
+    //   this.comments = await this.fetchComments()
+    // }
 }
 </script>
 

@@ -129,11 +129,14 @@
 
                 // Afficher les publications si connexion ok
                 if(res.ok === true) {
+                    // enregistrer le token de manière persistente (on reload page)
+                    localStorage.setItem('token', data.token)
+                    // console.log(localStorage.getItem('token'))
                     this.$router.push({
                         name: "Posts", 
                         params: { 
                             userName: data.userName, // transmettre l'user name
-                            token: data.token, // transmettre le token
+                            // token: data.token, // transmettre le token
                             isAdmin: data.isAdmin, // converti en boolean
                             userId: data.userId,
                         }
