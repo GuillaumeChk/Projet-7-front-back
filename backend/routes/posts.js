@@ -8,6 +8,7 @@ const owner = require('../middlewares/owner');
 const postsCtrl = require('../controllers/posts')
 
 router.get('/', auth, postsCtrl.getAllPosts);
+router.get('/:imageUrl', auth, postsCtrl.getImage);
 router.post('/', auth, multer, postsCtrl.createPost);
 router.delete('/:id', auth, owner, postsCtrl.deletePost);
 

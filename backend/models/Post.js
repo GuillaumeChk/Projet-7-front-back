@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db');
+const User = require('./User');
 
 const Post = sequelize.define('Post', {
   // Model attributes are defined here
@@ -9,7 +10,7 @@ const Post = sequelize.define('Post', {
     autoIncrement: true,
     primaryKey: true
   },
-  user: {
+  userName: {
     type: DataTypes.STRING(100),
     allowNull: false
   },
@@ -31,6 +32,9 @@ const Post = sequelize.define('Post', {
   },
 }, {
   // Other model options go here
+  include: [{
+    model: User
+  }]
 });
 
 // `sequelize.define` also returns the model

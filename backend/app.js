@@ -5,16 +5,26 @@ const app = express();
 
 const sequelize = require('./db');
 
-async function test() {
+const Post = require('./models/Post');
+const Comment = require('./models/Comment');
+const User = require('./models/User');
+
+async function startDB() {
   try {
     await sequelize.authenticate();
     console.log('Connection to database: success.');
+    await sequelize.sync({ force: true }); // { force: true }
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
 
-test();
+User.hasMany(Post);
+Post.belongsTo(User);
+Post.hasMany(Comment);
+Comment.belongsTo(Post);
+
+startDB();
 
 // CORS
 app.use((req, res, next) => {
@@ -31,6 +41,8 @@ const commentsRoutes = require('./routes/comments');
 const usersRoutes = require('./routes/users');
 
 app.use(express.json());
+
+app.use(express.static('images'));
 
 app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);

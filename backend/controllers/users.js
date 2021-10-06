@@ -58,9 +58,9 @@ exports.deleteAccount = async (req, res, next) => {
   await User.findOne({ where : { id: req.params.id } })
   .then(async user => {
     // Détruire ses posts
-    await Post.destroy({ where : { user: user.name } })
+    await Post.destroy({ where : { userName: user.name } })
     // Détruire ses commentaires
-    await Comment.destroy({ where : { user: user.name } })
+    await Comment.destroy({ where : { userName: user.name } })
   })
 
   // Supprimer l'user

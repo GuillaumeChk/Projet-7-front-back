@@ -34,6 +34,7 @@ export default {
             // token: '',
             isAdmin: false,
             userId: '',
+            user: Object,
         }
     },
     components: {
@@ -54,7 +55,7 @@ export default {
         // ajouter le créateur
         const post = {
           ...object.post,
-          user: this.userName
+          userName: this.userName
         }
         
         // console.log("post.text : " + post.text)
@@ -63,7 +64,7 @@ export default {
         let formData = new FormData();
         // formData.append('post', post)
         formData.append('id', post.id)
-        formData.append('user', this.userName)
+        formData.append('userName', this.userName)
         formData.append('text', post.text)
         formData.append('image', object.image)
         formData.append('date', post.date)
@@ -83,11 +84,9 @@ export default {
           body: formData
         })
 
-        res
-        // const data = await res.json()
-
         // mis à jour publications posts []
-        this.posts = [post, ...this.posts]
+        const data = await res.json().post
+        this.posts.unshift(data)
 
         this.refreshPage()
       },
@@ -109,7 +108,7 @@ export default {
       async addComment(comment) {
         comment = {
           ...comment,
-          user: this.userName
+          userName: this.userName
         }
         const res = await fetch('http://localhost:3000/api/comments', {
           method: 'POST',
@@ -185,16 +184,16 @@ export default {
         this.$router.push("/")
       },
       refreshPage() {
-        this.$router.push({
-          name: "Posts", 
-          params: { 
-              userName: this.userName, // transmettre l'user name
-              // token: data.token, // transmettre le token
-              isAdmin: this.isAdmin, // converti en boolean
-              userId: this.userId,
-          }
-          // SAUVER DANS LOCALSTORAGE ?
-        })
+        // this.$router.push({
+        //   name: "Posts", 
+        //   params: { 
+        //       userName: this.userName, // transmettre l'user name
+        //       // token: data.token, // transmettre le token
+        //       isAdmin: this.isAdmin, // converti en boolean
+        //       userId: this.userId,
+        //   }
+        //   // SAUVER DANS LOCALSTORAGE ?
+        // })
       }
     },
     async created() {
@@ -212,6 +211,7 @@ export default {
       else { // Sinon récupérer tous les posts et comments
         this.posts = await this.fetchPosts()
         this.comments = await this.fetchComments()
+        console.log(JSON.stringify(this.posts, null, 2))
       }
     },
     // async mounted() {

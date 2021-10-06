@@ -1,10 +1,12 @@
 <template>
     <div class="post">
         <h5>
-            {{ post.user }} a dit :
+            {{ post.userName }} a dit :
             <span>le {{ post.date }} à {{ post.hour }}</span>
             <i v-show="canDelete" @click="$emit('delete-post', post.id)" class="fas fa-times"></i>
         </h5>
+        <!-- <img>{{ post.imageUrl }}</img> -->
+        <img v-bind:src="imageSrc" alt="">
         <p>{{ post.text }}</p>
     </div>
     <Reply @add-comment="addComment" :post="post" />
@@ -30,6 +32,7 @@ export default {
             canDelete: false,
             // isAdmin: false,
             // userName: '',
+            imageSrc: '',
         }
     },
     components: {
@@ -43,11 +46,29 @@ export default {
         addComment(comment) {
             this.$emit('add-comment', comment)
         },
+        // async downloadImage(url) {
+        //     const res = await fetch(`http://localhost:3000/api/posts/${url}`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-type': 'application/json',
+        //             Authorization: 'Bearer ' + localStorage.getItem('token')
+        //         }
+        //     })
+        //     const data = await res.json()
+        //     return data
+        // }
     },
     async created() {
         // Est admin ou le créateur du post : possibilité de supprimer le post
-        if (this.post.user === this.userName || this.isAdmin) { 
+        if (this.post.userName === this.userName || this.isAdmin) { 
             this.canDelete = true
+        }
+
+        // Affichage de l'image
+        if (this.post.imageUrl != '') {
+            console.log(this.post.imageUrl)
+            // this.downloadImage(this.post.imageUrl)
+            this.imageSrc=this.post.imageUrl
         }
     },
     emits: ['delete-post','delete-comment', 'add-comment']

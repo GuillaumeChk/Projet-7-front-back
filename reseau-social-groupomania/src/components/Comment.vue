@@ -1,7 +1,7 @@
 <template>
     <div class="comment" v-if="post.id === comment.postId">
         <h5>
-            {{ comment.user }} a répondu :
+            {{ comment.userName }} a répondu :
             <span>le {{ comment.date }} à {{ comment.hour }}</span>
             <i v-show="canDelete" @click="$emit('delete-comment', comment.id)" class="fas fa-times"></i>
         </h5>
@@ -25,7 +25,7 @@ export default {
     },
     async created() {
         // Est admin ou le créateur du post : possibilité de supprimer le post
-        if (this.comment.user === this.userName || this.isAdmin) { 
+        if (this.comment.userName === this.userName || this.isAdmin) { 
             this.canDelete = true
         }
     },

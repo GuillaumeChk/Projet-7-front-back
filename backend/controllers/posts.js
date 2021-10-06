@@ -1,6 +1,7 @@
 const sequelize = require('../db');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
+const User = require('../models/User');
 // const FileReader = require('filereader'), fileReader = new FileReader();
 
 exports.createPost = async (req, res, next) => {
@@ -12,30 +13,44 @@ exports.createPost = async (req, res, next) => {
   // console.log("post " + JSON.stringify(req.body.post))
   // console.log("image " + req.files.image)
   // console.log('body : ' + req.body)
-  console.log("text : " + req.body.id)
-  console.log("text : " + req.body.user)
+  console.log("id : " + req.body.id)
+  console.log("userName : " + req.body.userName)
   console.log("text : " + req.body.text)
-  console.log("text : " + req.body.date)
-  console.log("text : " + req.body.hour)
+  console.log("date : " + req.body.date)
+  console.log("hour : " + req.body.hour)
+  if((req.file !== undefined)){
+
+    console.log("filename : " + req.file.filename)
+  }
 
 
   // fileReader.readAsBinaryString(req.files.images);
 
   // delete req.body.post.id; // auto-incrémenté par la db
-  const post = await Post.create({
-    // ...req.body.post,
-    // id auto-incrémenté
-    user: req.body.user,
-    text: req.body.text,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    date: req.body.date,
-    hour: req.body.hour,
+
+  // Try
+  const post = await Post.create(
+    {
+      // ...req.body.post,
+      // id auto-incrémenté
+      userName: req.body.userName,
+      text: req.body.text,
+      imageUrl: (req.file)?`${req.protocol}://${req.get('host')}/images/${req.file.filename}`:'',
+      date: req.body.date,
+      hour: req.body.hour,
+    },
+    // {
+    //   include: [{
+    //     model: User
+    //   }]
+    // }
+  )
+  res.status(201).json({
+      message: 'Post saved successfully!',
+      post: post,
   });
-  post.save()
-    .then(() => { res.status(201).json({
-      message: 'Post saved successfully!'
-    });})
-    .catch((error) => { res.status(400).json({ error: error });});
+  // Catch
+    // .catch((error) => { res.status(400).json({ error: error });});
 };
 
 exports.deletePost = async (req, res, next) => {
@@ -56,11 +71,23 @@ exports.deletePost = async (req, res, next) => {
 };
 
 exports.getAllPosts = async (req, res, next) => {
-    const posts = await Post.findAll({
-      order: [
-        ['date', 'DESC'], // les plus récents en premiers
-        ['hour', 'DESC']
-      ]
-    });
+    const posts = await Post.findAll(
+      {
+        order: [
+          ['date', 'DESC'], // les plus récents en premiers
+          ['hour', 'DESC']
+        ],
+        include: [
+          {
+            model: User
+          }
+        ]
+      },
+    );
   res.status(200).json(posts);
+};
+
+exports.getImage = async (req, res, next) => {
+  const image = req.params.imageUrl
+  // res.status(200).json(posts);
 };
