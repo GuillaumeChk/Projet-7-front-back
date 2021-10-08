@@ -1,5 +1,5 @@
 <template>
-  <img alt="Logo Grouporama" src="../public/icones/icon-above-font.svg">
+  <!-- <img alt="Logo Grouporama" src="../public/icones/icon-above-font.svg"> -->
   <router-view></router-view>
 </template>
 

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 // const fileUpload = require('express-fileupload');
 const app = express();
+const path = require('path');
 
 const sequelize = require('./db');
 
@@ -13,16 +14,25 @@ async function startDB() {
   try {
     await sequelize.authenticate();
     console.log('Connection to database: success.');
-    await sequelize.sync({ force: true }); // { force: true }
+    // await sequelize.sync();
+    await sequelize.sync({ force: true }); // supprime tout
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
 
 User.hasMany(Post);
-Post.belongsTo(User);
+Post.belongsTo(User, {
+  foreignKey: {
+    allowNull: false
+  }
+});
 Post.hasMany(Comment);
-Comment.belongsTo(Post);
+Comment.belongsTo(Post, {
+  foreignKey: {
+    allowNull: false
+  }
+});
 
 startDB();
 
@@ -42,7 +52,7 @@ const usersRoutes = require('./routes/users');
 
 app.use(express.json());
 
-app.use(express.static('images'));
+app.use("/images", express.static(path.join(__dirname, '/images')));
 
 app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);

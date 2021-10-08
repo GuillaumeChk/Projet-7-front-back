@@ -32,9 +32,11 @@ const Post = sequelize.define('Post', {
   },
 }, {
   // Other model options go here
-  include: [{
-    model: User
-  }]
+  include: [User
+    // {
+    // model: User
+    // }
+  ]
 });
 
 // `sequelize.define` also returns the model

@@ -39,11 +39,9 @@ exports.createPost = async (req, res, next) => {
       date: req.body.date,
       hour: req.body.hour,
     },
-    // {
-    //   include: [{
-    //     model: User
-    //   }]
-    // }
+    {
+      include: [User]
+    }
   )
   res.status(201).json({
       message: 'Post saved successfully!',
@@ -77,17 +75,13 @@ exports.getAllPosts = async (req, res, next) => {
           ['date', 'DESC'], // les plus récents en premiers
           ['hour', 'DESC']
         ],
-        include: [
-          {
-            model: User
-          }
+        include: [User
+          // {
+          //   model: User,
+          //   // required: true,
+          // }
         ]
       },
     );
   res.status(200).json(posts);
-};
-
-exports.getImage = async (req, res, next) => {
-  const image = req.params.imageUrl
-  // res.status(200).json(posts);
 };
