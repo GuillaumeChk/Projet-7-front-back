@@ -5,6 +5,8 @@ const app = express();
 const path = require('path');
 
 const sequelize = require('./db');
+// const { DataTypes } = require('sequelize/types');
+// const { DataTypes } = require('sequelize');
 
 const Post = require('./models/Post');
 const Comment = require('./models/Comment');
@@ -14,27 +16,30 @@ async function startDB() {
   try {
     await sequelize.authenticate();
     console.log('Connection to database: success.');
-    // await sequelize.sync();
-    await sequelize.sync({ force: true }); // supprime tout
+    await sequelize.sync();
+    // await sequelize.sync({ force: true }); // supprime tout
+    
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
 
-User.hasMany(Post);
-Post.belongsTo(User, {
-  foreignKey: {
-    allowNull: false
-  }
-});
-Post.hasMany(Comment);
-Comment.belongsTo(Post, {
-  foreignKey: {
-    allowNull: false
-  }
-});
+startDB(); // async
 
-startDB();
+User.hasMany(Post, {
+  foreignKey: {
+    type: sequelize.Sequelize.DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+Post.belongsTo(User);
+Post.hasMany(Comment, {
+  foreignKey: {
+    type: sequelize.Sequelize.DataTypes.INTEGER,
+    allowNull: false
+  }
+});
+Comment.belongsTo(Post);
 
 // CORS
 app.use((req, res, next) => {

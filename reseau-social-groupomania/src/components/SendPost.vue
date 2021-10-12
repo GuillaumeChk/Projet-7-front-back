@@ -42,6 +42,7 @@
                 const post = {
                     id: 1, // sera supprimé puis auto-incrémenté
                     // user : ajout de l'user dans Posts.vue
+                    // UserId: User.UserId,s
                     text: this.text,
                     imageUrl: '',
                     date: date.format(Date.now()),

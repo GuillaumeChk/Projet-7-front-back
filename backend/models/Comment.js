@@ -4,15 +4,21 @@ const sequelize = require('../db');
 const Comment = sequelize.define('Comment', {
   // Model attributes are defined here
   // id: {
-  //   type: DataTypes.INTEGER(255),
+  //   type: DataTypes.UUID,
   //   allowNull: false,
   //   autoIncrement: true,
   //   primaryKey: true
   // },
   // postId: {
-  //   type: DataTypes.INTEGER(255),
+  //   type: DataTypes.UUID,
   //   allowNull: false
   // },
+  id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
+  },
   userName: {
     type: DataTypes.STRING(100),
     allowNull: false

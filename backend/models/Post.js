@@ -5,7 +5,8 @@ const User = require('./User');
 const Post = sequelize.define('Post', {
   // Model attributes are defined here
   id: {
-    type: DataTypes.INTEGER(255),
+    type: DataTypes.INTEGER,
+    // type: DataTypes.UUID,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true

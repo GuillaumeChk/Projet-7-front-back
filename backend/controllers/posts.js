@@ -15,6 +15,7 @@ exports.createPost = async (req, res, next) => {
   // console.log('body : ' + req.body)
   console.log("id : " + req.body.id)
   console.log("userName : " + req.body.userName)
+  console.log("UserId : " + req.body.UserId)
   console.log("text : " + req.body.text)
   console.log("date : " + req.body.date)
   console.log("hour : " + req.body.hour)
@@ -33,6 +34,7 @@ exports.createPost = async (req, res, next) => {
     {
       // ...req.body.post,
       // id auto-incrémenté
+      UserId: req.body.UserId,
       userName: req.body.userName,
       text: req.body.text,
       imageUrl: (req.file)?`${req.protocol}://${req.get('host')}/images/${req.file.filename}`:'',

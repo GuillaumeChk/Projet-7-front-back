@@ -33,7 +33,7 @@ export default {
             userName: '',
             // token: '',
             isAdmin: false,
-            userId: '',
+            UserId: 0,
             user: Object,
         }
     },
@@ -55,7 +55,7 @@ export default {
         // ajouter le créateur
         const post = {
           ...object.post,
-          userName: this.userName
+          userName: this.userName,
         }
         
         // console.log("post.text : " + post.text)
@@ -65,6 +65,7 @@ export default {
         // formData.append('post', post)
         formData.append('id', post.id)
         formData.append('userName', this.userName)
+        formData.append('UserId', this.UserId)
         formData.append('text', post.text)
         formData.append('image', object.image)
         formData.append('date', post.date)
@@ -201,7 +202,8 @@ export default {
       this.userName = this.$route.params.userName
       this.isAdmin = (this.$route.params.isAdmin == 1)
       // et le token d'authentification
-      this.userId = this.$route.params.userId
+      this.UserId = this.$route.params.UserId
+      console.log("UserId : " + this.UserId)
 
       // Le token est-il nul ?
       if(localStorage.getItem('token') === null) {

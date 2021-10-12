@@ -13,7 +13,8 @@ exports.signup = (req, res, next) => {
         name: req.body.name,
         mail: req.body.mail,
         password: hash
-      });
+      }
+      );
       user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
         .catch(error => res.status(400).json({ error }));
@@ -33,13 +34,13 @@ exports.login = async (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userId: user.id,
+            UserId: user.id,
             // userMail: req.body.mail,
             userName: user.name,
             isAdmin: user.isAdmin,
             token: jwt.sign(
               { 
-                userId: user.id, 
+                UserId: user.id, 
                 userName: user.name,
                 isAdmin: user.isAdmin,
               },
