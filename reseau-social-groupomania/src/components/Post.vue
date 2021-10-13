@@ -50,6 +50,8 @@ export default {
     },
     async created() {
         // Est admin ou le créateur du post : possibilité de supprimer le post
+        // console.log("this.post.userName"+this.post.userName)
+        console.log("this.userName"+this.userName)
         if (this.post.userName === this.userName || this.isAdmin) { 
             this.canDelete = true
         }

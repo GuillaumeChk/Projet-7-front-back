@@ -18,8 +18,8 @@ module.exports = (req, res, next) => {
                 // Comparer l'id du proprio à l'id en entrée (ou le name)
                 console.log("post id : " + req.params.id)
                 console.log("is admin :" + isAdmin)
-                console.log(postOrComment.user + ' =? ' + userName)
-                if (postOrComment.user !== userName && !isAdmin) {
+                console.log(postOrComment.userName + ' =? ' + userName)
+                if (postOrComment.userName !== userName && !isAdmin) {
                     throw 'user ID non proprietaire'; // non valide
                 } else {
                     next(); // valide

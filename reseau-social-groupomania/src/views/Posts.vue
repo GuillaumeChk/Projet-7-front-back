@@ -86,8 +86,8 @@ export default {
         })
 
         // mis à jour publications posts []
-        const data = await res.json().post
-        this.posts.unshift(data)
+        const data = await res.json()
+        this.posts.unshift(data.post)
 
         this.refreshPage()
       },
@@ -109,7 +109,8 @@ export default {
       async addComment(comment) {
         comment = {
           ...comment,
-          userName: this.userName
+          userName: this.userName,
+          // PostId ajouté dans le sendReply
         }
         const res = await fetch('http://localhost:3000/api/comments', {
           method: 'POST',
@@ -198,13 +199,7 @@ export default {
       }
     },
     async created() {
-      // récupère le nom d'utilisateur depuis la page Connection (grace à la clef primaire mail de User)
-      this.userName = this.$route.params.userName
-      this.isAdmin = (this.$route.params.isAdmin == 1)
-      // et le token d'authentification
-      this.UserId = this.$route.params.UserId
-      console.log("UserId : " + this.UserId)
-
+      
       // Le token est-il nul ?
       if(localStorage.getItem('token') === null) {
         alert("Connexion expirée. Veuillez vous identifier à nouveau.")
@@ -214,6 +209,13 @@ export default {
         this.posts = await this.fetchPosts()
         this.comments = await this.fetchComments()
         console.log(JSON.stringify(this.posts, null, 2))
+        // récupère le nom d'utilisateur depuis la page Connection (grace à la clef primaire mail de User)
+        this.userName = this.$route.params.userName
+        this.isAdmin = (this.$route.params.isAdmin == 1)
+        // et le token d'authentification
+        this.UserId = this.$route.params.UserId
+        console.log("UserId : " + this.UserId)
+        console.log("userName : " + this.userName)
       }
     },
     // async mounted() {

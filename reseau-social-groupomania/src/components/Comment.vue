@@ -1,5 +1,5 @@
 <template>
-    <div class="comment" v-if="post.id === comment.postId">
+    <div class="comment" v-if="post.id === comment.PostId">
         <h5>
             {{ comment.userName }} a répondu :
             <span>le {{ comment.date }} à {{ comment.hour }}</span>

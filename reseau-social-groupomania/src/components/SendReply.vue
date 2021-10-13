@@ -32,7 +32,7 @@
                 // Créer l'objet post
                 const comment = {
                     id: 1, // sera supprimé puis auto-incrémenté
-                    postId: this.id,
+                    PostId: this.id,
                     text: this.text,
                     date: date.format(Date.now()),
                     hour: time.format(Date.now()),

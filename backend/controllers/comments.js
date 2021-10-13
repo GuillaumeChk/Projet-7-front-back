@@ -1,15 +1,26 @@
 const Comment = require('../models/Comment');
+const Post = require('../models/Post');
 
 exports.createComment = async (req, res, next) => {
-  delete req.body.id;
-  const comment = await Comment.create({
-    ...req.body
-  });
-  comment.save()
-    .then(() => { res.status(201).json({
-      message: 'Comment saved successfully!'
-    });})
-    .catch((error) => { res.status(400).json({ error: error });});
+  // delete req.body.id;
+
+  try {
+    const comment = await Comment.create({
+        // id auto-incrémenté
+        ...req.body,
+        // PostId: req.body.PostId
+      },
+      // {
+      //   include: [Post]
+      // }
+    )
+    res.status(201).json({
+      message: 'Comment saved successfully!',
+      comment: comment,
+    });
+  } catch (error) {
+    console.log("error : " + error);
+  }
 };
 
 exports.deleteComment = async (req, res, next) => {
@@ -21,12 +32,17 @@ exports.deleteComment = async (req, res, next) => {
 };
 
 exports.getAllComments = async (req, res, next) => {
-  const comments = await Comment.findAll({
-    order: [
-      ['date', 'ASC'],
-      ['hour', 'ASC']
-    ]
-  });
+  const comments = await Comment.findAll(
+    {
+      order: [
+        ['date', 'ASC'],
+        ['hour', 'ASC']
+      ]
+    },
+    // {
+    //   include: [Post]
+    // }
+  );
   
    res.status(200).json(comments);
 };

@@ -32,7 +32,6 @@
                     return
                 }
 
-                console.log(this.file)
                 const image = this.file
                 
                 let date = new Intl.DateTimeFormat("fr" , {dateStyle: "short"});

@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db');
+const Post = require('./Post');
 
 const Comment = sequelize.define('Comment', {
   // Model attributes are defined here
@@ -37,6 +38,7 @@ const Comment = sequelize.define('Comment', {
   },
 }, {
   // Other model options go here
+  include: [Post]
 });
 
 // `sequelize.define` also returns the model

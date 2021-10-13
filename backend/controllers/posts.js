@@ -61,11 +61,11 @@ exports.deletePost = async (req, res, next) => {
   });
 
   // Supprime également tous les commentaires de ce post
-  await Comment.destroy({
-    where: {
-      postId: req.params.id
-    }
-  })
+  // await Comment.destroy({
+  //   where: {
+  //     postId: req.params.id
+  //   }
+  // })
 
   // db CASCADE
 };
