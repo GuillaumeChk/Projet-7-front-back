@@ -2,18 +2,19 @@ const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 
 exports.createComment = async (req, res, next) => {
-  // delete req.body.id;
-
+  delete req.body.id;
   try {
     const comment = await Comment.create({
         // id auto-incrémenté
         ...req.body,
-        // PostId: req.body.PostId
       },
       // {
       //   include: [Post]
       // }
     )
+
+    console.log("comment : " + JSON.stringify(comment))
+
     res.status(201).json({
       message: 'Comment saved successfully!',
       comment: comment,

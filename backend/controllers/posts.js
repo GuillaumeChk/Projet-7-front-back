@@ -33,7 +33,7 @@ exports.createPost = async (req, res, next) => {
   const post = await Post.create(
     {
       // ...req.body.post,
-      // id auto-incrémenté
+      // id auto-incrémenté (ne pas l'ajouter)
       UserId: req.body.UserId,
       userName: req.body.userName,
       text: req.body.text,

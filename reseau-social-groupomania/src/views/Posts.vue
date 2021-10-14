@@ -112,6 +112,9 @@ export default {
           userName: this.userName,
           // PostId ajouté dans le sendReply
         }
+
+        console.log("comment : "+ JSON.stringify(comment))
+
         const res = await fetch('http://localhost:3000/api/comments', {
           method: 'POST',
           headers: {
