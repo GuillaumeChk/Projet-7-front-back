@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Connection from '../views/Connection'
-import Posts from '../views/Posts'
+// import Posts from '../views/Posts'
 
 const routes = [
     {
@@ -11,12 +11,13 @@ const routes = [
     {
         path: '/posts',
         name: 'Posts',
-        component: Posts,
-        beforeEnter: (to, from, next) => {
-            // ?
+        component: () => import(/* webpackChunkName: "Posts" */ "../views/Posts.vue")
+        // component: Posts,
+        // beforeEnter: (to, from, next) => {
+        //     // ?
 
-            next()
-        }
+        //     next()
+        // }
     }
 ]
 

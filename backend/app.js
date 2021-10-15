@@ -1,12 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-// const fileUpload = require('express-fileupload');
 const app = express();
 const path = require('path');
 
 const sequelize = require('./db');
-// const { DataTypes } = require('sequelize/types');
-// const { DataTypes } = require('sequelize');
+// const { sequelize } = require('./models');
 
 const Post = require('./models/Post');
 const Comment = require('./models/Comment');

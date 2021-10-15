@@ -103,7 +103,9 @@ export default {
 
           // Cela supprime également tous les commentaires du post
 
-          this.refreshPage()
+          // this.refreshPage()
+
+          this.posts.splice(this.posts.indexOf(id), 1)
         }
       },
       async addComment(comment) {
@@ -140,7 +142,9 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
-          this.refreshPage() 
+          // this.refreshPage() 
+
+          this.comments.splice(this.comments.indexOf(id), 1)
         }
       },
       async fetchPosts() {
@@ -209,9 +213,7 @@ export default {
         this.$router.push("/")
       }
       else { // Sinon récupérer tous les posts et comments
-        this.posts = await this.fetchPosts()
-        this.comments = await this.fetchComments()
-        console.log(JSON.stringify(this.posts, null, 2))
+        
         // récupère le nom d'utilisateur depuis la page Connection (grace à la clef primaire mail de User)
         this.userName = this.$route.params.userName
         this.isAdmin = (this.$route.params.isAdmin == 1)
@@ -219,6 +221,10 @@ export default {
         this.UserId = this.$route.params.UserId
         console.log("UserId : " + this.UserId)
         console.log("userName : " + this.userName)
+
+        this.posts = await this.fetchPosts()
+        this.comments = await this.fetchComments()
+        // console.log(JSON.stringify(this.posts, null, 2))
       }
     },
     // async mounted() {
