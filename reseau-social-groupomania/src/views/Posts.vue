@@ -241,6 +241,7 @@ export default {
         this.posts = await this.fetchPosts()
         this.comments = await this.fetchComments()
         // console.log(JSON.stringify(this.posts, null, 2))
+        console.log(JSON.stringify(this.comments, null, 2))
       }
     },
     // async mounted() {

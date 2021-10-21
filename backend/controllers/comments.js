@@ -11,9 +11,9 @@ exports.createComment = async (req, res, next) => {
         // id auto-incrémenté
         ...req.body,
       },
-      // {
-      //   include: [Post]
-      // }
+      {
+        include: [db.Post]
+      }
     )
 
     console.log("comment : " + JSON.stringify(comment))
@@ -42,11 +42,9 @@ exports.getAllComments = async (req, res, next) => {
       order: [
         ['date', 'ASC'],
         ['hour', 'ASC']
-      ]
-    },
-    // {
-    //   include: [db.Post]
-    // }
+      ],
+      include: [db.Post]
+    }
   );
   
    res.status(200).json(comments);

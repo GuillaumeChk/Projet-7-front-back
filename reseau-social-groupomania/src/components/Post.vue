@@ -1,7 +1,7 @@
 <template>
     <div class="post">
         <h5>
-            {{ post.userName }} a dit :
+            {{ post.User.name }} a dit :
             <span>le {{ post.date }} à {{ post.hour }}</span>
             <i v-show="canDelete" @click="$emit('delete-post', post.id)" class="fas fa-times"></i>
         </h5>
@@ -52,7 +52,8 @@ export default {
         // Est admin ou le créateur du post : possibilité de supprimer le post
         console.log("this.userName : "+this.userName)
         console.log("this.post.userName : "+this.post.userName)
-        if (this.post.userName === this.userName || this.isAdmin) { 
+        console.log("this.post.User.name : "+this.post.User.name)
+        if (this.post.User.name === this.userName || this.isAdmin) { 
             this.canDelete = true
         }
     },
