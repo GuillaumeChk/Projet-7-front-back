@@ -1,4 +1,5 @@
 <template>
+    <p>Connecté en tant que : {{ userName }}</p>
     <div class="container">
         <div class="head">
             <h2>Publications</h2>
@@ -85,14 +86,22 @@ export default {
           body: formData
         })
 
+        res
         // mis à jour publications posts []
-        const data = await res.json()
-        this.posts.unshift(data.post)
+        this.posts = await this.fetchPosts()
 
-        this.refreshPage()
+        // const data = await res.json()
+        // this.posts.unshift(data.post)
+
+        // this.refreshPage()
       },
       async deletePost(id) {
         if(confirm('Supprimer cette publication ?')) {
+          // Supprimer posts de la liste this.comments
+          // const index = this.posts.findIndex((elt) => elt.id == id)
+          // this.posts.splice(index, 1)
+          
+          // Supprimer posts de la DB
           await fetch(`http://localhost:3000/api/posts/${id}`, {
             method: 'DELETE',
             headers: {
@@ -104,8 +113,9 @@ export default {
           // Cela supprime également tous les commentaires du post
 
           // this.refreshPage()
+          this.posts = await this.fetchPosts()
 
-          this.posts.splice(this.posts.indexOf(id), 1)
+
         }
       },
       async addComment(comment) {
@@ -130,11 +140,17 @@ export default {
         // const data = await res.json()
 
         // mis à jour publications posts []
-        this.comments = [...this.comments, comment]
-        this.refreshPage()
+        // this.comments = [...this.comments, comment]
+        this.comments = await this.fetchComments()
+        // this.refreshPage()
       },
       async deleteComment(id) {
         if(confirm('Supprimer ce commentaire ?')) {
+          // Supprimer comment de la liste this.comments
+          // const index = this.comments.findIndex((elt) => elt.id == id)
+          // this.comments.splice(index, 1)
+          
+          // Supprimer comment de la DB
           await fetch(`http://localhost:3000/api/comments/${id}`, {
             method: 'DELETE',
             headers: {
@@ -142,9 +158,9 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
-          // this.refreshPage() 
 
-          this.comments.splice(this.comments.indexOf(id), 1)
+          this.comments = await this.fetchComments()
+          // this.refreshPage() 
         }
       },
       async fetchPosts() {
@@ -175,9 +191,9 @@ export default {
             this.$router.push("/")
       },
       async onDeleteAccount() {
-        console.log("del "+this.userId)
+        console.log("del "+this.UserId)
         if(confirm('Êtes-vous sûr(e) de vouloir supprimer votre compte ?')) {
-          await fetch(`http://localhost:3000/api/users/${this.userId}`, {
+          await fetch(`http://localhost:3000/api/users/${this.UserId}`, {
             method: 'DELETE',
             headers: {
               'Content-type': 'application/json',

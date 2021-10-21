@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
+// const Post = require('../models/Post');
+// const Comment = require('../models/Comment');
+const db = require('../models');
+
 
 module.exports = (req, res, next) => {
   // try {
@@ -10,7 +12,7 @@ module.exports = (req, res, next) => {
       const userName = decodedToken.userName;
       const isAdmin = decodedToken.isAdmin;
     //   console.log('token: ' + decodedToken);
-      (req.originalUrl.split('/')[2] === 'posts' ? Post : Comment) // Est-ce un Post ou un Comment ?
+      (req.originalUrl.split('/')[2] === 'posts' ? db.Post : db.Comment) // Est-ce un Post ou un Comment ?
       .findOne({
             where: { id: req.params.id }
         }).then(

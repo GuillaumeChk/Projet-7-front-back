@@ -1,10 +1,13 @@
-const Comment = require('../models/Comment');
-const Post = require('../models/Post');
+// const Comment = require('../models/Comment');
+// const Post = require('../models/Post');
+
+const db = require('../models');
+
 
 exports.createComment = async (req, res, next) => {
   delete req.body.id;
   try {
-    const comment = await Comment.create({
+    const comment = await db.Comment.create({
         // id auto-incrémenté
         ...req.body,
       },
@@ -25,15 +28,16 @@ exports.createComment = async (req, res, next) => {
 };
 
 exports.deleteComment = async (req, res, next) => {
-  await Comment.destroy({
+  await db.Comment.destroy({
     where: {
       id: req.params.id
     }
   });
+  res.status(200).json({ message: 'Commentaire supprimé' });
 };
 
 exports.getAllComments = async (req, res, next) => {
-  const comments = await Comment.findAll(
+  const comments = await db.Comment.findAll(
     {
       order: [
         ['date', 'ASC'],
@@ -41,7 +45,7 @@ exports.getAllComments = async (req, res, next) => {
       ]
     },
     // {
-    //   include: [Post]
+    //   include: [db.Post]
     // }
   );
   

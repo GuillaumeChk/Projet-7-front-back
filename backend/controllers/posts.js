@@ -1,8 +1,10 @@
-const sequelize = require('../db');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
-const User = require('../models/User');
-// const FileReader = require('filereader'), fileReader = new FileReader();
+// const sequelize = require('../db');
+// const Post = require('../models/Post');
+// const Comment = require('../models/Comment');
+// const User = require('../models/User');
+
+const db = require('../models');
+
 
 exports.createPost = async (req, res, next) => {
   console.log("files: " + req.files)
@@ -30,7 +32,7 @@ exports.createPost = async (req, res, next) => {
   // delete req.body.post.id; // auto-incrémenté par la db
 
   // Try
-  const post = await Post.create(
+  const post = await db.Post.create(
     {
       // ...req.body.post,
       // id auto-incrémenté (ne pas l'ajouter)
@@ -42,7 +44,7 @@ exports.createPost = async (req, res, next) => {
       hour: req.body.hour,
     },
     {
-      include: [User]
+      include: [db.User]
     }
   )
   res.status(201).json({
@@ -54,12 +56,12 @@ exports.createPost = async (req, res, next) => {
 };
 
 exports.deletePost = async (req, res, next) => {
-  await Post.destroy({
+  await db.Post.destroy({
     where: {
       id: req.params.id
     }
   });
-
+  res.status(200).json({ message: 'Publication supprimée' });
   // Supprime également tous les commentaires de ce post
   // await Comment.destroy({
   //   where: {
@@ -71,13 +73,13 @@ exports.deletePost = async (req, res, next) => {
 };
 
 exports.getAllPosts = async (req, res, next) => {
-    const posts = await Post.findAll(
+    const posts = await db.Post.findAll(
       {
         order: [
           ['date', 'DESC'], // les plus récents en premiers
           ['hour', 'DESC']
         ],
-        include: [User
+        include: [db.User
           // {
           //   model: User,
           //   // required: true,

@@ -1,37 +1,52 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db');
-
-const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    // type: DataTypes.UUID,
-    // defaultValue: DataTypes.UUIDV4,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  name: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
-  mail: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING(100),
-    allowNull: false
-  },
-  isAdmin: {
-    type: DataTypes.TINYINT,
-    allowNull: false,
-    defaultValue: false,
-  },
-}, {
-  // Other model options go here
-});
-
-// `sequelize.define` also returns the model
-// console.log(User === sequelize.models.User); // true
-
-module.exports = User;
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate({ Post }) {
+      // define association here
+      this.hasMany(Post, { foreignKey: 'UserId' })
+    }
+  };
+  User.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        // type: DataTypes.UUID,
+        // defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      name: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      mail: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      password: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      isAdmin: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: false,
+      },
+      
+    }, {
+      sequelize,
+      modelName: 'User',
+      timestamp: false,
+    }
+  );
+  return User;
+};

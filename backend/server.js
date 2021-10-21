@@ -1,5 +1,6 @@
 const http = require('http');
 const app = require('./app');
+const db = require('./models');
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -44,4 +45,8 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-server.listen(port);
+server.listen({ port: 3000 }, async () => {
+  console.log('Server up on http://localhost:3000')
+  await db.sequelize.authenticate()
+  console.log('Database Connected!')
+});
