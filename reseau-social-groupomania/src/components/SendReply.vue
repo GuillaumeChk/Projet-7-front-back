@@ -33,6 +33,7 @@
                 const comment = {
                     id: 1, // sera supprimé puis auto-incrémenté
                     PostId: this.id,
+                    // UserId ajouté dans Posts.vue
                     text: this.text,
                     date: date.format(Date.now()),
                     hour: time.format(Date.now()),

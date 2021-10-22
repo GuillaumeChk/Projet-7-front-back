@@ -12,7 +12,7 @@ exports.createComment = async (req, res, next) => {
         ...req.body,
       },
       {
-        include: [db.Post]
+        include: [db.Post, db.User]
       }
     )
 
@@ -43,7 +43,8 @@ exports.getAllComments = async (req, res, next) => {
         ['date', 'ASC'],
         ['hour', 'ASC']
       ],
-      include: [db.Post]
+      // include: [db.Post, db.User]
+      include: { all: true },
     }
   );
   

@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true
       },
-      userName: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
+      // userName: {
+      //   type: DataTypes.STRING(100),
+      //   allowNull: false
+      // },
       text: {
         type: DataTypes.TEXT,
         allowNull: true

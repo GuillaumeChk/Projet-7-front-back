@@ -123,6 +123,7 @@ export default {
           ...comment,
           userName: this.userName,
           // PostId ajouté dans le sendReply
+          UserId: this.UserId,
         }
 
         console.log("comment : "+ JSON.stringify(comment))
@@ -235,13 +236,13 @@ export default {
         this.isAdmin = (this.$route.params.isAdmin == 1)
         // et le token d'authentification
         this.UserId = this.$route.params.UserId
-        console.log("UserId : " + this.UserId)
-        console.log("userName : " + this.userName)
+        // console.log("UserId : " + this.UserId)
+        // console.log("userName : " + this.userName)
 
         this.posts = await this.fetchPosts()
         this.comments = await this.fetchComments()
         // console.log(JSON.stringify(this.posts, null, 2))
-        console.log(JSON.stringify(this.comments, null, 2))
+        // console.log(JSON.stringify(this.comments, null, 2))
       }
     },
     // async mounted() {

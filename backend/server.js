@@ -13,7 +13,7 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.APP_PORT || '3000');
 app.set('port', port);
 
 const errorHandler = error => {
@@ -45,8 +45,9 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-server.listen({ port: 3000 }, async () => {
-  console.log('Server up on http://localhost:3000')
+server.listen({ port: process.env.APP_PORT }, async () => {
+  console.log('Server up on http://localhost:' + process.env.APP_PORT)
   await db.sequelize.authenticate()
   console.log('Database Connected!')
+  // await db.sequelize.sync( {force: true }); // reset db
 });

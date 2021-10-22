@@ -12,9 +12,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Post }) {
+    static associate({ Post, User }) {
       // define association here
       this.belongsTo(Post, { foreignKey: 'PostId' })
+      this.belongsTo(User, { foreignKey: 'UserId' })
     }
   };
   Comment.init(
@@ -25,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        userName: {
-          type: DataTypes.STRING(100),
-          allowNull: false
-        },
+        // userName: {
+        //   type: DataTypes.STRING(100),
+        //   allowNull: false
+        // },
         text: {
           type: DataTypes.TEXT,
           allowNull: false

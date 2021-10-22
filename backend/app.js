@@ -3,42 +3,6 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-// const sequelize = require('./db');
-// // const { sequelize } = require('./models');
-
-// const Post = require('./models/Post');
-// const Comment = require('./models/Comment');
-// const User = require('./models/User');
-
-// async function startDB() {
-//   try {
-//     await sequelize.authenticate();
-//     console.log('Connection to database: success.');
-//     await sequelize.sync();
-//     // await sequelize.sync({ force: true }); // supprime tout
-    
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error);
-//   }
-// }
-
-// startDB(); // async
-
-// User.hasMany(Post, {
-//   foreignKey: {
-//     type: sequelize.Sequelize.DataTypes.INTEGER,
-//     allowNull: false
-//   }
-// });
-// Post.belongsTo(User);
-// Post.hasMany(Comment, {
-//   foreignKey: {
-//     type: sequelize.Sequelize.DataTypes.INTEGER,
-//     allowNull: false
-//   }
-// });
-// Comment.belongsTo(Post);
-
 // CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -46,7 +10,6 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
-// app.use(fileUpload());
 
 const postsRoutes = require('./routes/posts');
 const commentsRoutes = require('./routes/comments');
