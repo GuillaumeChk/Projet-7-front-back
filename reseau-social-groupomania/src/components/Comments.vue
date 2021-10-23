@@ -1,5 +1,5 @@
 <template>
-    <button @click="toggleComments" class="btn-show-comments">{{ btnTexte }} les commentaires</button> <!-- v-show="hasComments" -->
+    <button @click="toggleComments" class="btn-show-comments">{{ btnTexte }} les commentaires</button>
     <div v-if="showComments">
         <div :key="comment.id" v-for="comment in comments">
             <Comment @delete-comment="deleteComment" :comment="comment" :post="post" :isAdmin="isAdmin" :userName="userName" />
@@ -25,14 +25,8 @@ export default {
         return {
             showComments: false,
             btnTexte: 'Afficher',
-            // hasComments: false
         }
     },
-    // computed: {
-    //     hasComments() {
-    //         return (typeof this.comments.find(this.post.id === this.comments.postId) !== 'undefined')
-    //     }
-    // },
     methods: {
         toggleComments() {
             this.showComments = !this.showComments
@@ -47,11 +41,6 @@ export default {
             this.$emit('delete-comment', id)
         }
     },
-    // created() {
-    //     if(this.comments.find(this.post.id === this.comments.postId)){
-    //         this.hasComments = true
-    //     }
-    // },
     emits: ['delete-comment']
 }
 </script>
@@ -60,9 +49,7 @@ export default {
 @import "./src/scss/_variables.scss";
 
     .btn-show-comments {
-        // display: block;
         margin-left: 30px;
-        // margin-right: 15px;
         padding:3px 6px 3px 6px;
         background: none;
         color: $color-accent;

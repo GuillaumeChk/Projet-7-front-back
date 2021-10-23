@@ -1,40 +1,10 @@
-// const sequelize = require('../db');
-// const Post = require('../models/Post');
-// const Comment = require('../models/Comment');
-// const User = require('../models/User');
-
 const db = require('../models');
 
-
 exports.createPost = async (req, res, next) => {
-  console.log("files: " + req.files)
-  console.log("file: " + req.file)
-  // console.log("parsed files: " + JSON.parse(req.files))
-  console.log("req :" + req)
-  // console.log("image :" + req.files.originalname)
-  // console.log("post " + JSON.stringify(req.body.post))
-  // console.log("image " + req.files.image)
-  // console.log('body : ' + req.body)
-  console.log("id : " + req.body.id)
-  console.log("userName : " + req.body.userName)
-  console.log("UserId : " + req.body.UserId)
-  console.log("text : " + req.body.text)
-  console.log("date : " + req.body.date)
-  console.log("hour : " + req.body.hour)
-  if((req.file !== undefined)){
-
-    console.log("filename : " + req.file.filename)
-  }
-
-
-  // fileReader.readAsBinaryString(req.files.images);
-
-  // delete req.body.post.id; // auto-incrémenté par la db
 
   // Try
   const post = await db.Post.create(
     {
-      // ...req.body.post,
       // id auto-incrémenté (ne pas l'ajouter)
       UserId: req.body.UserId,
       userName: req.body.userName,
@@ -62,14 +32,8 @@ exports.deletePost = async (req, res, next) => {
     }
   });
   res.status(200).json({ message: 'Publication supprimée' });
-  // Supprime également tous les commentaires de ce post
-  // await Comment.destroy({
-  //   where: {
-  //     postId: req.params.id
-  //   }
-  // })
 
-  // db CASCADE
+  // Supprime également tous les commentaires de ce post
 };
 
 exports.getAllPosts = async (req, res, next) => {
@@ -79,12 +43,7 @@ exports.getAllPosts = async (req, res, next) => {
           ['date', 'DESC'], // les plus récents en premiers
           ['hour', 'DESC']
         ],
-        include: [db.User
-          // {
-          //   model: User,
-          //   // required: true,
-          // }
-        ]
+        include: [db.User]
       },
     );
   res.status(200).json(posts);

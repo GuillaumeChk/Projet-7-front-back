@@ -24,16 +24,12 @@ export default {
     props: {
         post: Object,
         comments: Array,
-        // user: Object,
         isAdmin: Boolean,
         userName: String,
     },
     data() {
         return {
             canDelete: false,
-            // isAdmin: false,
-            // userName: '',
-            // imageSrc: '',
         }
     },
     components: {

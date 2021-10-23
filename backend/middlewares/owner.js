@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken');
-// const Post = require('../models/Post');
-// const Comment = require('../models/Comment');
 const db = require('../models');
-
 
 module.exports = (req, res, next) => {
   // try {
@@ -11,16 +8,12 @@ module.exports = (req, res, next) => {
       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       const userName = decodedToken.userName;
       const isAdmin = decodedToken.isAdmin;
-    //   console.log('token: ' + decodedToken);
       (req.originalUrl.split('/')[2] === 'posts' ? db.Post : db.Comment) // Est-ce un Post ou un Comment ?
       .findOne({
             where: { id: req.params.id }
         }).then(
             (postOrComment) => {
                 // Comparer l'id du proprio à l'id en entrée (ou le name)
-                console.log("post id : " + req.params.id)
-                console.log("is admin :" + isAdmin)
-                console.log(postOrComment.userName + ' =? ' + userName)
                 if (postOrComment.userName !== userName && !isAdmin) {
                     throw 'user ID non proprietaire'; // non valide
                 } else {

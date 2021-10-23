@@ -1,8 +1,4 @@
-// const Comment = require('../models/Comment');
-// const Post = require('../models/Post');
-
 const db = require('../models');
-
 
 exports.createComment = async (req, res, next) => {
   delete req.body.id;

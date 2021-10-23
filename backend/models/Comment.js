@@ -3,8 +3,6 @@ const {
   Model
 } = require('sequelize');
 
-// const Post = require('./Post')
-
 module.exports = (sequelize, DataTypes) => {
   class Comment extends Model {
     /**
@@ -26,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        // userName: {
-        //   type: DataTypes.STRING(100),
-        //   allowNull: false
-        // },
         text: {
           type: DataTypes.TEXT,
           allowNull: false
@@ -45,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       sequelize,
       modelName: 'Comment',
-      // include: [Post],
     }
   );
   return Comment;

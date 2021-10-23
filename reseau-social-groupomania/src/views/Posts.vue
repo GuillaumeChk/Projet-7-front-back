@@ -5,9 +5,9 @@
             <h2>Publications</h2>
             <button @click="toggleAddPost">{{ btnTexte }}</button>
         </div>
-        <!-- publier -->
+        <!-- Publier -->
         <SendPost v-show="showAddPost" @submit-post="addPost" />
-        <!-- liste des publications -->
+        <!-- Liste des publications -->
         <p>Les plus récentes</p>
         <div :key="post.id" v-for="post in posts">
             <Post @add-comment="addComment" @delete-post="deletePost" @delete-comment="deleteComment" :post="post" :comments="comments" :isAdmin="isAdmin" :userName="userName" />
@@ -32,7 +32,6 @@ export default {
             posts: [],
             comments: [],
             userName: '',
-            // token: '',
             isAdmin: false,
             UserId: 0,
             user: Object,
@@ -58,12 +57,8 @@ export default {
           ...object.post,
           userName: this.userName,
         }
-        
-        // console.log("post.text : " + post.text)
-        // console.log("post : " + post)
 
         let formData = new FormData();
-        // formData.append('post', post)
         formData.append('id', post.id)
         formData.append('userName', this.userName)
         formData.append('UserId', this.UserId)
@@ -89,18 +84,9 @@ export default {
         res
         // mis à jour publications posts []
         this.posts = await this.fetchPosts()
-
-        // const data = await res.json()
-        // this.posts.unshift(data.post)
-
-        // this.refreshPage()
       },
       async deletePost(id) {
         if(confirm('Supprimer cette publication ?')) {
-          // Supprimer posts de la liste this.comments
-          // const index = this.posts.findIndex((elt) => elt.id == id)
-          // this.posts.splice(index, 1)
-          
           // Supprimer posts de la DB
           await fetch(`http://localhost:3000/api/posts/${id}`, {
             method: 'DELETE',
@@ -112,10 +98,7 @@ export default {
 
           // Cela supprime également tous les commentaires du post
 
-          // this.refreshPage()
           this.posts = await this.fetchPosts()
-
-
         }
       },
       async addComment(comment) {
@@ -128,7 +111,7 @@ export default {
 
         console.log("comment : "+ JSON.stringify(comment))
 
-        const res = await fetch('http://localhost:3000/api/comments', {
+        await fetch('http://localhost:3000/api/comments', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -137,20 +120,10 @@ export default {
           body: JSON.stringify(comment)
         })
 
-        res
-        // const data = await res.json()
-
-        // mis à jour publications posts []
-        // this.comments = [...this.comments, comment]
         this.comments = await this.fetchComments()
-        // this.refreshPage()
       },
       async deleteComment(id) {
         if(confirm('Supprimer ce commentaire ?')) {
-          // Supprimer comment de la liste this.comments
-          // const index = this.comments.findIndex((elt) => elt.id == id)
-          // this.comments.splice(index, 1)
-          
           // Supprimer comment de la DB
           await fetch(`http://localhost:3000/api/comments/${id}`, {
             method: 'DELETE',
@@ -161,7 +134,6 @@ export default {
           })
 
           this.comments = await this.fetchComments()
-          // this.refreshPage() 
         }
       },
       async fetchPosts() {
@@ -189,10 +161,9 @@ export default {
       onDisconnect() {
         // effacer le token
         localStorage.removeItem('token')
-            this.$router.push("/")
+        this.$router.push("/")
       },
       async onDeleteAccount() {
-        console.log("del "+this.UserId)
         if(confirm('Êtes-vous sûr(e) de vouloir supprimer votre compte ?')) {
           await fetch(`http://localhost:3000/api/users/${this.UserId}`, {
             method: 'DELETE',
@@ -209,18 +180,6 @@ export default {
         localStorage.removeItem('token')
         this.$router.push("/")
       },
-      refreshPage() {
-        // this.$router.push({
-        //   name: "Posts", 
-        //   params: { 
-        //       userName: this.userName, // transmettre l'user name
-        //       // token: data.token, // transmettre le token
-        //       isAdmin: this.isAdmin, // converti en boolean
-        //       userId: this.userId,
-        //   }
-        //   // SAUVER DANS LOCALSTORAGE ?
-        // })
-      }
     },
     async created() {
       
@@ -234,10 +193,7 @@ export default {
         // récupère le nom d'utilisateur depuis la page Connection (grace à la clef primaire mail de User)
         this.userName = this.$route.params.userName
         this.isAdmin = (this.$route.params.isAdmin == 1)
-        // et le token d'authentification
         this.UserId = this.$route.params.UserId
-        // console.log("UserId : " + this.UserId)
-        // console.log("userName : " + this.userName)
 
         this.posts = await this.fetchPosts()
         this.comments = await this.fetchComments()
@@ -245,21 +201,6 @@ export default {
         // console.log(JSON.stringify(this.comments, null, 2))
       }
     },
-    // async mounted() {
-    //   this.posts = await this.fetchPosts()
-    //   this.comments = await this.fetchComments()
-    // }
-    // watch: {
-    //   user: async function() {
-    //     if (this.posts) {
-    //       this.posts = await this.fetchPosts()
-    //     }
-    //   }
-    // },
-    // async updated() {
-    //   this.posts = await this.fetchPosts()
-    //   this.comments = await this.fetchComments()
-    // }
 }
 </script>
 

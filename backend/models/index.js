@@ -22,7 +22,6 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    if (typeof(model) != "function") return; // fichiers .js vides (bis)
     db[model.name] = model;
   });
 

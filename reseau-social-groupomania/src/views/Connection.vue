@@ -68,24 +68,6 @@
                 }
 
                 this.goToPosts(user);
-                // // retourne un tableau de 2 valeurs (res et data)
-                // const tab = await this.loginUser(user)
-                // const res = tab[0]
-                // const data = tab[1]
-
-                // // Afficher les publications si connexion ok
-                // if(res.ok === true) {
-                //     this.$router.push({
-                //         name: "Posts", 
-                //         params: { 
-                //             userName: data.userName,// transmettre l'user name
-                //             token: data.token// transmettre le token
-                //         } 
-                //     })
-                // }
-                // else {
-                //     this.connectionRefused = true
-                // }
             },
             async onRegister(e) {
                 e.preventDefault()
@@ -102,24 +84,6 @@
                 await this.registerUser(user)
 
                 this.goToPosts(user);
-                // // retourne un tableau de 2 valeurs (res et data)
-                // const tab = await this.loginUser(user)
-                // const res = tab[0]
-                // const data = tab[1]
-
-                // // Afficher les publications si connexion ok
-                // if(res.ok === true) {
-                //     this.$router.push({
-                //         name: "Posts", 
-                //         params: { 
-                //             userName: data.userName, // transmettre l'user name
-                //             token: data.token // transmettre le token
-                //             }
-                //         })
-                // }
-                // else {
-                //     this.connectionRefused = true
-                // }
             },
             async goToPosts(user) {
                 // retourne un tableau de 2 valeurs (res et data)
@@ -131,12 +95,11 @@
                 if(res.ok === true) {
                     // enregistrer le token de manière persistente (on reload page)
                     localStorage.setItem('token', data.token)
-                    // console.log(localStorage.getItem('token'))
+                    
                     this.$router.push({
                         name: "Posts", 
                         params: { 
                             userName: data.userName, // transmettre l'user name
-                            // token: data.token, // transmettre le token
                             isAdmin: data.isAdmin, // converti en boolean
                             UserId: data.UserId,
                         }
@@ -172,9 +135,6 @@
                 return data
             },
         },
-        // async created() {
-        //     this.users = await this.fetchUsers()
-        // }
     }
 </script>
 
@@ -183,7 +143,6 @@
     .container {
         border: 2px solid;
         border-radius: 10px;
-        // background-color: $primary-color;
         margin: 10px;
         padding: 10px;
     }

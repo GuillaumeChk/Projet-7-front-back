@@ -19,15 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        // type: DataTypes.UUID,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      // userName: {
-      //   type: DataTypes.STRING(100),
-      //   allowNull: false
-      // },
       text: {
         type: DataTypes.TEXT,
         allowNull: true
@@ -47,11 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       sequelize,
       modelName: 'Post',
-      // include: [User
-      //   // {
-      //   // model: User
-      //   // }
-      // ],
     }
   );
   return Post;

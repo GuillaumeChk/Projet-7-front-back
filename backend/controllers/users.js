@@ -1,14 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// const User = require('../models/User');
 const db = require('../models');
 
-// const Post = require('../models/Post');
-// const Comment = require('../models/Comment');
-
 exports.signup = (req, res, next) => {
-  // delete req.body.id;
   bcrypt.hash(req.body.password, 10)
     .then(async hash => {
       const user = await db.User.create({
@@ -16,10 +11,10 @@ exports.signup = (req, res, next) => {
         mail: req.body.mail,
         password: hash
       }
-      );
-      user.save()
-        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(400).json({ error }));
+    );
+    user.save()
+      .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+      .catch(error => res.status(400).json({ error }));
     })
     // .catch(error => res.status(500).json({ error }));
 };
@@ -37,7 +32,6 @@ exports.login = async (req, res, next) => {
           }
           res.status(200).json({
             UserId: user.id,
-            // userMail: req.body.mail,
             userName: user.name,
             isAdmin: user.isAdmin,
             token: jwt.sign(
@@ -72,13 +66,7 @@ exports.deleteAccount = async (req, res, next) => {
       id: req.params.id
     }
   })
-  // user.save()
-  //   .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
-  //   .catch(error => res.status(400).json({ error }));
-
-  // destroy ses posts et comments ?
-
-  // db CASCADE
+  
   res.status(200).json({ message: 'Compte supprimé' });
   
 };
