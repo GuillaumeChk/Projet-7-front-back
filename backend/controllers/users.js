@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const db = require('../models');
+const Op = db.Sequelize.Op;
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -51,6 +53,20 @@ exports.login = async (req, res, next) => {
 };
 
 exports.deleteAccount = async (req, res, next) => {
+  // Supprimer les images de ses posts du dossier images
+  const posts = await db.Post.findAll({
+    where: {
+      UserId: req.params.id,
+      imageUrl:  { 
+          [Op.not]: null,
+        },
+    }
+  });
+  posts.forEach(element => {
+    const filename = element.imageUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, () => {});
+  });
+
   await db.User.destroy({
     where: {
       id: req.params.id
