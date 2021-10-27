@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
         // Récupérer le token
       const token = req.headers.authorization.split(' ')[1];
       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      const userName = decodedToken.userName;
+      const userId = decodedToken.UserId;
       const isAdmin = decodedToken.isAdmin;
       (req.originalUrl.split('/')[2] === 'posts' ? db.Post : db.Comment) // Est-ce un Post ou un Comment ?
       .findOne({
@@ -14,7 +14,8 @@ module.exports = (req, res, next) => {
         }).then(
             (postOrComment) => {
                 // Comparer l'id du proprio à l'id en entrée (ou le name)
-                if (postOrComment.userName !== userName && !isAdmin) {
+                console.log(userId);
+                if (postOrComment.UserId !== userId && !isAdmin) {
                     throw 'user ID non proprietaire'; // non valide
                 } else {
                     next(); // valide

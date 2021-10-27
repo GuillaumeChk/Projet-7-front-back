@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Post, User }) {
       // define association here
-      this.belongsTo(Post, { foreignKey: 'PostId' })
-      this.belongsTo(User, { foreignKey: 'UserId' })
+      this.belongsTo(Post, { foreignKey: 'PostId', onDelete: 'CASCADE', hooks: true  })
+      this.belongsTo(User, { foreignKey: 'UserId', onDelete: 'CASCADE', hooks: true  })
     }
   };
   Comment.init(

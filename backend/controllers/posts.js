@@ -1,4 +1,5 @@
 const db = require('../models');
+const fs = require('fs');
 
 exports.createPost = async (req, res, next) => {
 
@@ -26,14 +27,26 @@ exports.createPost = async (req, res, next) => {
 };
 
 exports.deletePost = async (req, res, next) => {
+  // Supprimer l'image
+  const post = await db.Post.findOne({
+    where: {
+      id: req.params.id
+    }
+  });
+  if (post.imageUrl !== undefined) {
+    const filename = post.imageUrl.split('/images/')[1];
+    fs.unlink(`images/${filename}`, () => {});
+  }
+
   await db.Post.destroy({
     where: {
       id: req.params.id
     }
   });
+  // Supprime également tous les commentaires de ce post
+
   res.status(200).json({ message: 'Publication supprimée' });
 
-  // Supprime également tous les commentaires de ce post
 };
 
 exports.getAllPosts = async (req, res, next) => {

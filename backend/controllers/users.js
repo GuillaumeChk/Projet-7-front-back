@@ -51,22 +51,12 @@ exports.login = async (req, res, next) => {
 };
 
 exports.deleteAccount = async (req, res, next) => {
-  // Trouver l'user
-  await db.User.findOne({ where : { id: req.params.id } })
-  .then(async user => {
-    // Détruire ses posts
-    await db.Post.destroy({ where : { userName: user.name } })
-    // Détruire ses commentaires
-    await db.Comment.destroy({ where : { userName: user.name } })
-  })
-
-  // Supprimer l'user
   await db.User.destroy({
     where: {
       id: req.params.id
     }
   })
-  
+  // Supprime également les posts et comments en cascade automatiquement (sequelize)
   res.status(200).json({ message: 'Compte supprimé' });
   
 };
