@@ -13,7 +13,7 @@
                 </li>
                 <li>
                     <label for="">Mot de passe : </label>
-                    <input type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*[0-9])([A-Za-z0-9]){8,}$" oninvalid="setCustomValidity('Veuillez entrer au moins 8 caractères dont au moins 1 chiffre.')" required/>
+                    <input type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*[0-9])([A-Za-z0-9]){8,}$" oninvalid="setCustomValidity('Veuillez entrer au moins 8 caractères dont au moins 1 chiffre.')" oninput="this.setCustomValidity('')" required/>
                 </li>
             </ul>
             <p v-show="connectionRefused" class="connectionRefused">Mot de passe et/ou adresse email incorrect(s)</p>
@@ -36,7 +36,7 @@
                 </li>
                 <li>
                     <label for="">Mot de passe : </label>
-                    <input type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*[0-9])([A-Za-z0-9]){8,}$" oninvalid="setCustomValidity('Veuillez entrer au moins 8 caractères dont au moins 1 chiffre.')" required/>
+                    <input type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*[0-9])([A-Za-z0-9]){8,}$" oninvalid="setCustomValidity('Veuillez entrer au moins 8 caractères dont au moins 1 chiffre.')" oninput="this.setCustomValidity('')" required/>
                 </li>
             </ul>
             <input class="btn" type="submit" value="Valider">
